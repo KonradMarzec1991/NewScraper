@@ -9,7 +9,7 @@ def get_webpage_html(url):
 
 # for onet
 def get_onet():
-    soup = BeautifulSoup(get_webpage_html('https://www.onet.pl/'))
+    soup = BeautifulSoup(get_webpage_html('https://www.onet.pl/'), "html.parser")
     my_divs = soup.find_all('div', {'class': 'hpLiveColumn'})
 
     one = my_divs[0]
@@ -21,7 +21,7 @@ def get_onet():
 
 # for wp
 def get_wp():
-    soup = BeautifulSoup(get_webpage_html('https://www.wp.pl/'))
+    soup = BeautifulSoup(get_webpage_html('https://www.wp.pl/'), "html.parser")
     my_divs = soup.find_all('div', {'class', 'sc-1010b23-0 jmZodu'})
 
     one = my_divs[0]
@@ -33,7 +33,7 @@ def get_wp():
 
 # for interia
 def get_interia():
-    soup = BeautifulSoup(get_webpage_html('https://www.interia.pl/'))
+    soup = BeautifulSoup(get_webpage_html('https://www.interia.pl/'), "html.parser")
     my_divs = soup.find_all('section', {'id', 'special'})
 
     one = my_divs[0]
@@ -41,3 +41,15 @@ def get_interia():
 
     for h in headers:
         print(h['alt'])
+
+
+# for polsat news
+def get_polsat():
+    soup = BeautifulSoup(get_webpage_html('https://www.polsatnews.pl/'), "html.parser")
+    my_divs = soup.find_all('div', {'id', 'sg_slider'})
+
+    print(my_divs)
+
+
+get_wp()
+get_polsat()
