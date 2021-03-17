@@ -7,11 +7,27 @@ def get_webpage_html(url):
     return response.content
 
 
-soup = BeautifulSoup(get_webpage_html('https://www.onet.pl/'))
-mydivs = soup.find_all('div', {'class': 'hpLiveColumn'})
+# for onet
+def get_onet():
+    soup = BeautifulSoup(get_webpage_html('https://www.onet.pl/'))
+    my_divs = soup.find_all('div', {'class': 'hpLiveColumn'})
 
-one = mydivs[0]
-headears = one.find_all('span', {'class': 'title'})
+    one = my_divs[0]
+    headers = one.find_all('span', {'class': 'title'})
 
-for h in headears:
-    print(h.text)
+    for h in headers:
+        print(h.text)
+
+
+# for wp
+def get_wp():
+    soup = BeautifulSoup(get_webpage_html('https://www.wp.pl/'))
+    my_divs = soup.find_all('div', {'class', 'sc-1010b23-0 jmZodu'})
+
+    one = my_divs[0]
+    headers = one.find_all('div', {'class': 'sc-1k2mbc5-1'})
+
+    for h in headers:
+        print(h.text)
+
+
