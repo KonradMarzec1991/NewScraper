@@ -31,3 +31,13 @@ def get_wp():
         print(h.text)
 
 
+# for interia
+def get_interia():
+    soup = BeautifulSoup(get_webpage_html('https://www.interia.pl/'))
+    my_divs = soup.find_all('section', {'id', 'special'})
+
+    one = my_divs[0]
+    headers = one.find_all('img')
+
+    for h in headers:
+        print(h['alt'])
