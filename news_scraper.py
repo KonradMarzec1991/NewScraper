@@ -17,9 +17,7 @@ def get_onet():
 
     one = my_divs[0]
     headers = one.find_all('span', {'class': 'title'})
-
-    for h in headers:
-        print(h.text)
+    return list(h.text for h in headers)
 
 
 # for wp
@@ -32,9 +30,7 @@ def get_wp():
 
     one = my_divs[0]
     headers = one.find_all('div', {'class': 'sc-1k2mbc5-1'})
-
-    for h in headers:
-        print(h.text)
+    return list(h.text for h in headers)
 
 
 # for interia
@@ -47,9 +43,7 @@ def get_interia():
 
     one = my_divs[0]
     headers = one.find_all('img')
-
-    for h in headers:
-        print(h['alt'])
+    return list(h.text for h in headers)
 
 
 # for polsat news
@@ -66,9 +60,7 @@ def get_polsat():
 
     one = my_divs[0]
     headers = one.find_all('img')
-
-    for h in headers:
-        print(h['alt'])
+    return list(h.text for h in headers)
 
 
 get_polsat()
