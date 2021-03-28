@@ -1,73 +1,69 @@
+from collections import namedtuple
+
 import requests
 from bs4 import BeautifulSoup
 
 from .models import News
 
 
-def get_webpage_html(url):
-    response = requests.get(url)
-    return response.content
+urlNews = namedtuple('urlNews', 'origin url depth_1 depth_2')
 
 
-# for onet
-def get_onet():
-    soup = BeautifulSoup(
-        get_webpage_html('https://www.onet.pl/'),
-        "html.parser"
-    )
-    my_divs = soup.find_all('div', {'class': 'hpLiveColumn'})
-
-    one = my_divs[0]
-    headers = one.find_all('span', {'class': 'title'})
-    # return list(h.text for h in headers)
-
-    for h in headers:
-        new = News(
-            origin='onet',
-            header=h.text
-        )
-        new.save()
-    return 'SUCCESS!'
+def generate_url(name):
+    return f'https://www.{name}.pl'
 
 
-# for wp
-def get_wp():
-    soup = BeautifulSoup(
-        get_webpage_html('https://www.wp.pl/'),
-        "html.parser"
-    )
-    my_divs = soup.find_all('div', {'class', 'sc-1010b23-0 jmZodu'})
-
-    one = my_divs[0]
-    headers = one.find_all('div', {'class': 'sc-1k2mbc5-1'})
-    return list(h.text for h in headers)
-
-
-# for interia
-def get_interia():
-    soup = BeautifulSoup(
-        get_webpage_html('https://www.interia.pl/'),
-        "html.parser"
-    )
-    my_divs = soup.find_all('section', {'id', 'special'})
-
-    one = my_divs[0]
-    headers = one.find_all('img')
-    return list(h.text for h in headers)
-
-
-# for polsat news
-def get_polsat():
-    r = requests.get(
-        'https://www.polsatnews.pl',
+def create_soup(url):
+    response = requests.get(
+        url=url,
         headers={'User-Agent': 'Mozilla/5.0'}
     )
-    soup = BeautifulSoup(
-        r.content,
-        "html.parser"
-    )
-    my_divs = soup.find_all('div', {'id': 'sg_slider'})
+    return BeautifulSoup(response.content, "html.parser")
 
-    one = my_divs[0]
-    headers = one.find_all('img')
-    return list(h.text for h in headers)
+
+class Scraper:
+
+    url_list = (
+        urlNews(
+            origin='onet',
+            url=generate_url('onet'),
+            depth_1=('div', {'class': 'hpLiveColumn'}),
+            depth_2=('span', {'class': 'title'})
+        ),
+        urlNews(
+            origin='wp',
+            url=generate_url('wp'),
+            depth_1=('div', {'class', 'sc-1010b23-0 jmZodu'}),
+            depth_2=('div', {'class': 'sc-1k2mbc5-1'})
+        ),
+        urlNews(
+            origin='interia',
+            url=generate_url('interia'),
+            depth_1=('section', {'id', 'facts'}),
+            depth_2='a'
+        ),
+        urlNews(
+            origin='polsatnews',
+            url=generate_url('polsatnews'),
+            depth_1=('div', {'id': 'sg_slider'}),
+            depth_2='img'
+        )
+    )
+
+    def get_news(self):
+        for data in self.url_list:
+            origin, url, depth_1, depth_2 = data
+            frame = create_soup(url).find_all(*depth_1)[0]
+
+            if isinstance(depth_2, tuple):
+                headers = frame.find_all(*depth_2)
+            else:
+                headers = frame.find_all(depth_2)
+
+            for header in headers:
+                new = News(
+                    origin=origin,
+                    header=header.text.strip()
+                    if origin != 'polsatnews' else header['alt']
+                )
+                new.save()

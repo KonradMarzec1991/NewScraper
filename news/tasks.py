@@ -1,14 +1,10 @@
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 
-from .scraper import (
-    get_wp,
-    get_polsat,
-    get_interia,
-    get_onet
-)
+from .scraper import Scraper
 
 
 @shared_task
 def get_news():
-    get_onet()
+    Scraper().get_news()
+    return 'Loaded successfully'
