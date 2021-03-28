@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 ]
 
 MY_APPS = [
-
+    'news'
 ]
 
 INSTALLED_APPS += MY_APPS

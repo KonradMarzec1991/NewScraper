@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 
+from .models import News
+
 
 def get_webpage_html(url):
     response = requests.get(url)
@@ -17,7 +19,15 @@ def get_onet():
 
     one = my_divs[0]
     headers = one.find_all('span', {'class': 'title'})
-    return list(h.text for h in headers)
+    # return list(h.text for h in headers)
+
+    for h in headers:
+        new = News(
+            origin='onet',
+            header=h.text
+        )
+        new.save()
+    return 'SUCCESS!'
 
 
 # for wp
@@ -61,6 +71,3 @@ def get_polsat():
     one = my_divs[0]
     headers = one.find_all('img')
     return list(h.text for h in headers)
-
-
-get_polsat()
