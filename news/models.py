@@ -6,5 +6,8 @@ class News(models.Model):
     header = models.CharField(max_length=250)
     timestamp = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name_plural = 'News'
+
     def __str__(self):
         return f'News({self.header})'
