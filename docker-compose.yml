@@ -3,7 +3,6 @@ version: '3.8'
 services:
   server:
     build: .
-    container_name: server
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/usr/src/app
@@ -29,16 +28,16 @@ services:
 
   pgdb:
     image: postgres
-    container_name: db
     env_file:
       - .env
     volumes:
       - pgdata:/var/lib/postgresql/data/
+    ports:
+    - "5432:5432"
     restart: on-failure
 
   rabbit:
     image: "rabbitmq:3-management-alpine"
-    container_name: rabbit
     env_file:
       - .env
     ports:
