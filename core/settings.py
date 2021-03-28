@@ -37,8 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'celery'
+    'django.contrib.staticfiles'
 ]
 
 MY_APPS = [
@@ -88,7 +87,7 @@ DATABASES = {
         'NAME': 'news',
         'USER': 'news_user',
         'PASSWORD': 'news',
-        'HOST': 'localhost',
+        'HOST': 'pgdb',
         'PORT': 5432,
     }
 }
