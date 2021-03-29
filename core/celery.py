@@ -13,7 +13,7 @@ app.config_from_object('django.conf:settings')
 app.autodiscover_tasks(settings.INSTALLED_APPS)
 
 app.conf.beat_schedule = {
-    'get_news': {
+    'download_news': {
         'task': 'news.tasks.get_news',
         'schedule': crontab(minute=0, hour='0,6,12,18')
     },
