@@ -18,7 +18,7 @@ app.conf.beat_schedule = {
         'schedule': crontab(minute=0, hour='0,6,12,18')
     },
 }
-app.conf.timezone = 'UTC'
+app.conf.timezone = 'Europe/Warsaw'
 
 
 @app.task(bind=True)
