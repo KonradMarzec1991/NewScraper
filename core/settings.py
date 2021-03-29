@@ -136,10 +136,3 @@ STATIC_URL = '/static/'
 
 CELERY_BROKER_URL = 'amqp://admin:mypass@rabbit:5672/'
 CELERY_RESULT_BACKEND = 'db+postgresql://news_user:news@pgdb/news'
-
-CELERY_BEAT_SCHEDULE = {
-    'scheduled_task': {
-        'task': 'news.tasks.get_news',
-        'schedule': 10.0
-    }
-}
