@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 
+from celery.schedules import crontab
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -37,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles'
+    'django.contrib.staticfiles',
+    'django_celery_beat'
 ]
 
 MY_APPS = [
@@ -133,3 +136,10 @@ STATIC_URL = '/static/'
 
 CELERY_BROKER_URL = 'amqp://admin:mypass@rabbit:5672/'
 CELERY_RESULT_BACKEND = 'db+postgresql://news_user:news@pgdb/news'
+
+CELERY_BEAT_SCHEDULE = {
+    'scheduled_task': {
+        'task': 'news.tasks.get_news',
+        'schedule': 10.0
+    }
+}
