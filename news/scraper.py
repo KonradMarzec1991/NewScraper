@@ -71,7 +71,7 @@ class Scraper:
 
 class Onet:
     def __init__(self):
-        self.soup = create_soup(generate_url(self.__class__.__name__))
+        self.soup = create_soup(generate_url('onet'))
 
     def get_board(self):
         hs = self.soup.find_all('div', {'class': 'hpLiveColumn'})[0]
@@ -87,3 +87,18 @@ class Onet:
                     print(list(h.text.strip() for h in headers))
             except TypeError:
                 pass
+
+
+class Polsanews:
+    def __init__(self):
+        self.soup = create_soup(generate_url('polsatnews'))
+
+    def get_board(self):
+        hs = self.soup.find_all('div', {'id': 'sg_slider'})[0]
+        headers = hs.find_all('img')
+        print(list(h['alt'] for h in headers))
+
+    def get_news(self):
+        hs = self.soup.find_all('ul', {'id': 'najnowsze'})
+        headers = hs[0].find_all('h2')
+        print(list(h.text for h in headers))
