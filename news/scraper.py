@@ -67,3 +67,18 @@ class Scraper:
                     if origin != 'polsatnews' else header['alt']
                 )
                 new.save()
+
+
+class Onet:
+
+    @staticmethod
+    def download_news():
+        soup = create_soup(generate_url('onet'))
+        hs = soup.find_all('article', {'class': 'newsBox'})
+        for item in hs:
+            try:
+                if item.section['data-section'] in ('news', 'sport', 'economy'):
+                    headers = item.find_all('span', {'class': 'title'})
+                    print(list(h.text.strip() for h in headers))
+            except TypeError:
+                pass
