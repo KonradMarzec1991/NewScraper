@@ -1,0 +1,87 @@
+from collections import namedtuple
+
+import requests
+from bs4 import BeautifulSoup
+
+
+urlNews = namedtuple('urlNews', 'origin url depth_1 depth_2')
+
+
+def generate_url(name):
+    return f'https://www.{name}.pl'
+
+
+def create_soup(url):
+    response = requests.get(
+        url=url,
+        headers={'User-Agent': 'Mozilla/5.0'}
+    )
+    return BeautifulSoup(response.content, "html.parser")
+
+
+class Scraper:
+
+    url_list = (
+        urlNews(
+            origin='onet',
+            url=generate_url('onet'),
+            depth_1=('div', {'class': 'hpLiveColumn'}),
+            depth_2=('span', {'class': 'title'})
+        ),
+        urlNews(
+            origin='wp',
+            url=generate_url('wp'),
+            depth_1=('div', {'class', 'sc-1010b23-0 jmZodu'}),
+            depth_2=('div', {'class': 'sc-1k2mbc5-1'})
+        ),
+        urlNews(
+            origin='interia',
+            url=generate_url('interia'),
+            depth_1=('section', {'id', 'facts'}),
+            depth_2='a'
+        ),
+        urlNews(
+            origin='polsatnews',
+            url=generate_url('polsatnews'),
+            depth_1=('div', {'id': 'sg_slider'}),
+            depth_2='img'
+        )
+    )
+
+    def get_news(self):
+        for data in self.url_list:
+            origin, url, depth_1, depth_2 = data
+            frame = create_soup(url).find_all(*depth_1)[0]
+
+            if isinstance(depth_2, tuple):
+                headers = frame.find_all(*depth_2)
+            else:
+                headers = frame.find_all(depth_2)
+
+
+class Onet:
+
+    @staticmethod
+    def board():
+        soup = create_soup(generate_url('onet'))
+        hs = soup.find_all('div', {'class': 'hpLiveColumn'})
+        my_headers = []
+        for item in hs:
+            headers = item.find_all('span', {'class': 'title'})
+            my_headers.extend(list(h.text for h in headers))
+        return my_headers
+
+    @staticmethod
+    def main():
+        soup = create_soup(generate_url('onet'))
+        hs = soup.find_all('article', {'class': 'newsBox'})
+        for item in hs:
+            try:
+                if item.section['data-section'] in ('news', 'sport', 'economy'):
+                    headers = item.find_all('span', {'class': 'title'})
+                    print(list(h.text.strip() for h in headers))
+            except TypeError:
+                pass
+
+
+print(Onet.main())
