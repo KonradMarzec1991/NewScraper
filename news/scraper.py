@@ -102,3 +102,14 @@ class Polsanews:
         hs = self.soup.find_all('ul', {'id': 'najnowsze'})
         headers = hs[0].find_all('h2')
         print(list(h.text for h in headers))
+
+
+class Interia:
+    def __init__(self):
+        self.soup = create_soup('interia')
+
+    def get_news(self):
+        for label in ('facts', 'business', 'sport'):
+            hs = self.soup.find_all('section', {'id', label})[0]
+            headers = hs.find_all('a')
+            print(list(h.text for h in headers))
