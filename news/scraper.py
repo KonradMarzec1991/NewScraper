@@ -70,11 +70,16 @@ class Scraper:
 
 
 class Onet:
+    def __init__(self):
+        self.soup = create_soup(generate_url(self.__class__.__name__))
 
-    @staticmethod
-    def download_news():
-        soup = create_soup(generate_url('onet'))
-        hs = soup.find_all('article', {'class': 'newsBox'})
+    def get_board(self):
+        hs = self.soup.find_all('div', {'class': 'hpLiveColumn'})[0]
+        headers = hs.find_all('span', {'class': 'title'})
+        print(list(h.text for h in headers))
+
+    def get_news(self):
+        hs = self.soup.find_all('article', {'class': 'newsBox'})
         for item in hs:
             try:
                 if item.section['data-section'] in ('news', 'sport', 'economy'):
