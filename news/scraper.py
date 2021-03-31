@@ -1,4 +1,4 @@
-from .utils import create_soup
+from news.utils import create_soup
 
 
 class Service:
@@ -14,11 +14,12 @@ class OnetService:
             name='div',
             attrs={'class': 'hpLiveColumn'}
         )
-        headers = hs[0].find_all(
-            name='span',
-            attrs={'class': 'title'}
-        )
-        print(list(h.text for h in headers))
+        for h in hs:
+            headers = h.find_all(
+                name='span',
+                attrs={'class': 'title'}
+            )
+            print(list(h.text.strip() for h in headers))
 
     def get_news(self):
         hs = self.soup.find_all(
