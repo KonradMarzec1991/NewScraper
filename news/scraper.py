@@ -1,11 +1,25 @@
-from news.utils import create_soup
+"""
+Module contains portal-designed classes for scraping main board news
+"""
+
+import abc
+
+from .utils import create_soup
+from .models import News
 
 
-class Service:
-    pass
+class Service(abc.ABC):
+
+    @abc.abstractmethod
+    def get_board(self):
+        pass
+
+    def save(self, obj_list):
+        for obj in obj_list:
+            pass
 
 
-class OnetService:
+class Onet(Service):
     soup = create_soup('onet')
     labels = ('news', 'sport', 'economy')
 
@@ -38,7 +52,7 @@ class OnetService:
                 pass
 
 
-class PolsatnewsService:
+class PolsatNews(Service):
     soup = create_soup('onet')
 
     def get_board(self):
@@ -47,7 +61,7 @@ class PolsatnewsService:
             attrs={'id': 'sg_slider'}
         )
         headers = hs[0].find_all('img')
-        print(list(h['alt'] for h in headers))
+        print(list(h['alt'].strip() for h in headers))
 
     def get_news(self):
         hs = self.soup.find_all(
@@ -58,21 +72,21 @@ class PolsatnewsService:
         print(list(h.text for h in headers))
 
 
-class InteriaService:
+class Interia(Service):
     soup = create_soup('interia')
     labels = ('facts', 'business', 'sport')
 
-    def get_news(self):
+    def get_board(self):
         for label in self.labels:
             hs = self.soup.find_all(
                 name='section',
                 attrs={'id': label}
             )
             headers = hs[0].find_all('a')
-            print(list(h.text for h in headers))
+            print(list(h.text.strip() for h in headers))
 
 
-class Wp:
+class Wp(Service):
     soup = create_soup('wp')
 
     def get_board(self):
@@ -80,11 +94,8 @@ class Wp:
             name='div',
             attrs={'class': 'sc-1010b23-0 crydSY'}
         )
-        print(hs)
 
         headers = hs[0].find_all(
             name='div',
             attrs={'class': 'sc-1qdlbrk-0'}
         )
-
-        print(list(h.text for h in headers))

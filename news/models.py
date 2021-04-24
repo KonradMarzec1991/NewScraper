@@ -1,3 +1,7 @@
+"""
+Module contains Django models
+"""
+
 from django.db import models
 
 
