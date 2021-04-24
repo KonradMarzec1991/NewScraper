@@ -130,3 +130,9 @@ class Wp(Service):
             attrs={'class': 'sc-1qdlbrk-0'}
         )
         self.save_news(headers)
+
+
+wp = Wp()
+onet = Onet()
+interia = Interia()
+polsatnews = PolsatNews()
