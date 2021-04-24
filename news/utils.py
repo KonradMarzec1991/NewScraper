@@ -2,6 +2,8 @@
 This module contains helper function for scraper and/or model
 """
 
+from abc import ABCMeta
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -15,12 +17,17 @@ def create_soup(service_name):
     return BeautifulSoup(response.content, "html.parser")
 
 
-class Singleton(type):
+class MetaSingleton(ABCMeta):
     """This class introduces Singleton pattern"""
     instances = {}
 
     def __call__(cls, *args, **kwargs):
-        existing_instance = Singleton.instances.get(cls, None)
+        existing_instance = MetaSingleton.instances.get(cls, None)
         if existing_instance is None:
-            Singleton.instances[cls] = super().__call__(*args, **kwargs)
-        return Singleton.instances[cls]
+            MetaSingleton.instances[cls] = super().__call__(*args, **kwargs)
+        return MetaSingleton.instances[cls]
+
+
+class Singleton(metaclass=MetaSingleton):
+    """Class ready for inheritance"""
+    pass

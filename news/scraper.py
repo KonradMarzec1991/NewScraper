@@ -11,7 +11,7 @@ from .utils import Singleton, create_soup
 from .models import News
 
 
-class Service(abc.ABC, Singleton):
+class Service(Singleton):
     """Helper class for main services"""
 
     @abc.abstractmethod
