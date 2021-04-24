@@ -6,6 +6,8 @@ from django.db import models
 
 
 class News(models.Model):
+    """Main class for News"""
+
     origin = models.CharField(max_length=50)
     section = models.CharField(max_length=50, default='main')
     header = models.CharField(max_length=250)
