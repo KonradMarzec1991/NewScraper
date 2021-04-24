@@ -38,7 +38,7 @@ class OnetService:
                 pass
 
 
-class PolsanewsService:
+class PolsatnewsService:
     soup = create_soup('onet')
 
     def get_board(self):
@@ -70,3 +70,21 @@ class InteriaService:
             )
             headers = hs[0].find_all('a')
             print(list(h.text for h in headers))
+
+
+class Wp:
+    soup = create_soup('wp')
+
+    def get_board(self):
+        hs = self.soup.find_all(
+            name='div',
+            attrs={'class': 'sc-1010b23-0 crydSY'}
+        )
+        print(hs)
+
+        headers = hs[0].find_all(
+            name='div',
+            attrs={'class': 'sc-1qdlbrk-0'}
+        )
+
+        print(list(h.text for h in headers))
