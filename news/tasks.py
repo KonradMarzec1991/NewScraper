@@ -4,34 +4,28 @@ from __future__ import (
 )
 from celery import shared_task
 
-from .scraper import (
-    wp,
-    onet,
-    interia,
-    polsatnews
-)
-
-
-def get_news(page):
-    page.get_board()
-    return f'{page.title()} news loaded successfully'
+from .scraper import Wp, Onet, Interia, PolsatNews
 
 
 @shared_task
 def get_wp():
-    get_news(wp)
+    wp = Wp()
+    wp.get_board()
 
 
 @shared_task
 def get_interia():
-    get_news(interia)
+    interia = Interia()
+    interia.get_board()
 
 
 @shared_task
 def get_onet():
-    get_news(onet)
+    onet = Onet()
+    onet.get_board()
 
 
 @shared_task
 def get_polsatnews():
-    get_news(polsatnews)
+    polsatnews = PolsatNews()
+    polsatnews.get_board()

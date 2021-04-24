@@ -19,7 +19,7 @@ class Service(abc.ABC, Singleton):
         """Save list of news from top board"""
         pass
 
-    def save_news(self, obj_list: List[Tag]) -> None:
+    def save_news(self, obj_list: List[Tag]) -> str:
         """
         Save objects from list to db
         :param obj_list: list with headers
@@ -36,8 +36,10 @@ class Service(abc.ABC, Singleton):
                 header=header
             )
             news.save()
+        return f'Data from service {self.get_self_name()} loaded successfully.'
 
     def get_self_name(self) -> str:
+        """Returns name of self class"""
         return self.__class__.__name__.lower()
 
 
@@ -130,9 +132,3 @@ class Wp(Service):
             attrs={'class': 'sc-1qdlbrk-0'}
         )
         self.save_news(headers)
-
-
-wp = Wp()
-onet = Onet()
-interia = Interia()
-polsatnews = PolsatNews()
