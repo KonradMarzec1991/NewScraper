@@ -1,31 +1,35 @@
+"""
+Module contains celery tasks
+"""
+
 from __future__ import (
     absolute_import,
     unicode_literals
 )
 from celery import shared_task
 
-from .scraper import Wp, Onet, Interia, PolsatNews
+from .scraper import wp, onet, interia, polsatnews
 
 
 @shared_task
 def get_wp():
-    wp = Wp()
+    """Get wp headers"""
     wp.get_board()
 
 
 @shared_task
 def get_interia():
-    interia = Interia()
+    """Get interia headers"""
     interia.get_board()
 
 
 @shared_task
 def get_onet():
-    onet = Onet()
+    """Get onet headers"""
     onet.get_board()
 
 
 @shared_task
 def get_polsatnews():
-    polsatnews = PolsatNews()
+    """Get polsatnews headers"""
     polsatnews.get_board()

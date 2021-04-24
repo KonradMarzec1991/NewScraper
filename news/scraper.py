@@ -62,6 +62,7 @@ class Onet(Service):
             self.save_news(headers)
 
     def get_news(self) -> None:
+        """Get news"""
         hs = self.soup.find_all(
             name='article',
             attrs={'class': 'newsBox'}
@@ -92,6 +93,7 @@ class PolsatNews(Service):
         self.save_news(headers)
 
     def get_news(self) -> None:
+        """Get news"""
         hs = self.soup.find_all(
             name='ul',
             attrs={'id': 'najnowsze'}
@@ -132,3 +134,10 @@ class Wp(Service):
             attrs={'class': 'sc-1qdlbrk-0'}
         )
         self.save_news(headers)
+
+
+# create singleton objects for each media
+wp = Wp()
+onet = Onet()
+interia = Interia()
+polsatnews = PolsatNews()
