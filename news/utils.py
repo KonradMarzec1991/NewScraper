@@ -28,6 +28,7 @@ class MetaSingleton(ABCMeta):
         return MetaSingleton.instances[cls]
 
 
+# pylint: disable=unnecessary-pass,too-few-public-methods
 class Singleton(metaclass=MetaSingleton):
     """Class ready for inheritance"""
     pass

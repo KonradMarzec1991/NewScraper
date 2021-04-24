@@ -8,7 +8,12 @@ from __future__ import (
 )
 from celery import shared_task
 
-from .scraper import wp, onet, interia, polsatnews
+from .scraper import (
+    wp,
+    onet,
+    interia,
+    polsatnews
+)
 
 
 @shared_task

@@ -10,7 +10,7 @@ fail-under=10.0
 
 # Add files or directories to the blacklist. They should be base names, not
 # paths.
-ignore=migrations,wsgi.py,asgi.py,apps.py,bin,include,lib,share,urls,admin.py
+ignore=migrations,wsgi.py,asgi.py,apps.py,bin,include,lib,share,urls,admin.py,settings.py
 
 # Add files or directories matching the regex patterns to the blacklist. The
 # regex matches against base names, not paths.

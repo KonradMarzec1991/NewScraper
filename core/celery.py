@@ -30,4 +30,5 @@ app.conf.timezone = 'Europe/Warsaw'
 
 @app.task(bind=True)
 def debug_task(self):
+    """Debug function"""
     print(f'Request: {self.request!r}')

@@ -1,3 +1,4 @@
+# pylint: disable=too-few-public-methods
 """
 Module contains Django models
 """
@@ -14,6 +15,7 @@ class News(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
 
     class Meta:
+        """Meta class"""
         verbose_name_plural = 'News'
 
     def __str__(self):

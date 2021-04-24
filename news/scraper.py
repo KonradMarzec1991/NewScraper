@@ -14,6 +14,7 @@ from .models import News
 class Service(Singleton):
     """Helper class for main services"""
 
+    # pylint: disable=unnecessary-pass
     @abc.abstractmethod
     def get_board(self):
         """Save list of news from top board"""
@@ -50,12 +51,12 @@ class Onet(Service):
     labels = ('news', 'sport', 'economy')
 
     def get_board(self) -> None:
-        hs = self.soup.find_all(
+        board = self.soup.find_all(
             name='div',
             attrs={'class': 'hpLiveColumn'}
         )
-        for h in hs:
-            headers = h.find_all(
+        for item in board:
+            headers = item.find_all(
                 name='span',
                 attrs={'class': 'title'}
             )
@@ -63,11 +64,11 @@ class Onet(Service):
 
     def get_news(self) -> None:
         """Get news"""
-        hs = self.soup.find_all(
+        board = self.soup.find_all(
             name='article',
             attrs={'class': 'newsBox'}
         )
-        for item in hs:
+        for item in board:
             try:
                 if item.section['data-section'] in self.labels:
                     headers = item.find_all(
@@ -85,20 +86,20 @@ class PolsatNews(Service):
     soup = create_soup('polsatnews')
 
     def get_board(self) -> None:
-        hs = self.soup.find_all(
+        board = self.soup.find_all(
             name='div',
             attrs={'id': 'sg_slider'}
         )
-        headers = hs[0].find_all('img')
+        headers = board[0].find_all('img')
         self.save_news(headers)
 
     def get_news(self) -> None:
         """Get news"""
-        hs = self.soup.find_all(
+        board = self.soup.find_all(
             name='ul',
             attrs={'id': 'najnowsze'}
         )
-        headers = hs[0].find_all('h2')
+        headers = board[0].find_all('h2')
         self.save_news(headers)
 
 
@@ -110,11 +111,11 @@ class Interia(Service):
 
     def get_board(self) -> None:
         for label in self.labels:
-            hs = self.soup.find_all(
+            board = self.soup.find_all(
                 name='section',
                 attrs={'id': label}
             )
-            headers = hs[0].find_all('a')
+            headers = board[0].find_all('a')
             self.save_news(headers)
 
 
@@ -124,12 +125,12 @@ class Wp(Service):
     soup = create_soup('wp')
 
     def get_board(self) -> None:
-        hs = self.soup.find_all(
+        board = self.soup.find_all(
             name='div',
             attrs={'class': 'sc-1010b23-0 crydSY'}
         )
 
-        headers = hs[0].find_all(
+        headers = board[0].find_all(
             name='div',
             attrs={'class': 'sc-1qdlbrk-0'}
         )
