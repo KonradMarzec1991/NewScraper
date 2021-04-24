@@ -7,11 +7,11 @@ from typing import List
 
 from bs4.element import Tag
 
-from .utils import create_soup
+from .utils import Singleton, create_soup
 from .models import News
 
 
-class Service(abc.ABC):
+class Service(abc.ABC, Singleton):
     """Helper class for main services"""
 
     @abc.abstractmethod
