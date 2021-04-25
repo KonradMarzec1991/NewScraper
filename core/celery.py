@@ -22,7 +22,7 @@ app.autodiscover_tasks(settings.INSTALLED_APPS)
 app.conf.beat_schedule = {
     'download_news': {
         'task': 'news.tasks.get_news',
-        'schedule': crontab(minute='0', hour='0,6,12,18')
+        'schedule': crontab(minute='0', hour=settings.INTERVALS)
     },
 }
 app.conf.timezone = 'Europe/Warsaw'

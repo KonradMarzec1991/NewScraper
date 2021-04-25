@@ -136,3 +136,5 @@ STATIC_URL = '/static/'
 
 CELERY_BROKER_URL = 'amqp://admin:mypass@rabbit:5672/'
 CELERY_RESULT_BACKEND = 'db+postgresql://news_user:news@pgdb/news'
+
+INTERVALS = '0,6,12,18'
