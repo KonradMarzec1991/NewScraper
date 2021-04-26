@@ -20,5 +20,4 @@ class RunNewsLoading(APIView):
 
         method_to_call = getattr(tasks, f'get_{portal}')
         method_to_call()
-
         return Response('Something works!')
